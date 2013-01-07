@@ -56,9 +56,47 @@ def fetch_colors_info(page_content):
 
             colors.append(color_dict)
 
-    print colors
+    return colors
+
+
+def lower_case_first_letter_of_string(string):
+    first_letter = string[0]
+    return first_letter.lower() + string[1:]
+
+
+def format_color_component(component):
+    return "%.3f" % float(float(component) / 255)
+
+
+def format_colors_for_objective_c(colors):
+    for color in colors:
+        camelCasedName = lower_case_first_letter_of_string(color['name'])
+        red = color['components']['red']
+        green = color['components']['green']
+        blue = color['components']['blue']
+
+        print "method definition"
+        print "+ (UIColor *)" + camelCasedName + "Color;"
+
+        print "method implementation"
+        print "+ (UIColor *)" + camelCasedName + "Color;"
+        print "{"
+        comment = "\t// " + color['name'] + " - "
+        comment = comment + str(red) + " "
+        comment = comment + str(green) + " "
+        comment = comment + str(blue)
+        print comment
+        method = "\treturn [UIColor colorWithRed:"
+        method = method + format_color_component(red)
+        method = method + " green:" + format_color_component(green)
+        method = method + " blue:" + format_color_component(blue)
+        method = method + "];"
+        print method
+        print "}"
+        print "-" * 8
 
 
 url_string = "http://www.w3schools.com/cssref/css_colornames.asp"
 page_content = fetch_a_page_from_the_web(url_string)
 colors_info = fetch_colors_info(page_content)
+formatted_colors = format_colors_for_objective_c(colors_info)
