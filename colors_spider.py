@@ -28,8 +28,12 @@ def fetch_a_page_from_the_web(url_string):
 
 
 def fetch_colors_info_node(page_content):
+
     soup = BeautifulSoup(page_content)
-    print soup.prettify()
+
+    # print soup.prettify()
+
+    return soup.find("table", "reference")
 
 
 url_string = "http://www.w3schools.com/cssref/css_colornames.asp"
