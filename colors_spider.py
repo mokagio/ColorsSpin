@@ -68,31 +68,42 @@ def format_color_component(component):
     return "%.3f" % float(float(component) / 255)
 
 
+def method_definition_string(color):
+    return "+ (UIColor *)" + lower_case_first_letter_of_string(color['name']) + "Color;"
+
+
+def method_implementation_string(color):
+    red = color['components']['red']
+    green = color['components']['green']
+    blue = color['components']['blue']
+
+    implementation = "+ (UIColor *)" + lower_case_first_letter_of_string(color['name']) + "Color"
+    implementation = implementation + "\n{"
+
+    implementation = implementation + "\n"
+
+    implementation = implementation + "\t// " + color['name']
+    implementation = implementation + " - " + str(red) + " "
+    implementation = implementation + str(green) + " "
+    implementation = implementation + str(blue)
+
+    implementation = implementation + "\n"
+
+    implementation = implementation + "\treturn [UIColor colorWithRed:"
+    implementation = implementation + format_color_component(red)
+    implementation = implementation + " green:" + format_color_component(green)
+    implementation = implementation + " blue:" + format_color_component(blue)
+    implementation = implementation + "];"
+
+    implementation = implementation + "\n}"
+
+    return implementation
+
+
 def format_colors_for_objective_c(colors):
     for color in colors:
-        camelCasedName = lower_case_first_letter_of_string(color['name'])
-        red = color['components']['red']
-        green = color['components']['green']
-        blue = color['components']['blue']
-
-        print "method definition"
-        print "+ (UIColor *)" + camelCasedName + "Color;"
-
-        print "method implementation"
-        print "+ (UIColor *)" + camelCasedName + "Color;"
-        print "{"
-        comment = "\t// " + color['name'] + " - "
-        comment = comment + str(red) + " "
-        comment = comment + str(green) + " "
-        comment = comment + str(blue)
-        print comment
-        method = "\treturn [UIColor colorWithRed:"
-        method = method + format_color_component(red)
-        method = method + " green:" + format_color_component(green)
-        method = method + " blue:" + format_color_component(blue)
-        method = method + "];"
-        print method
-        print "}"
+        print method_definition_string(color)
+        print method_implementation_string(color)
         print "-" * 8
 
 
