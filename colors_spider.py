@@ -12,6 +12,7 @@ Useful stuff found on
 - http://www.boddie.org.uk/python/HTML.html
 """
 import urllib
+from bs4 import BeautifulSoup
 
 
 def fetch_a_page_from_the_web(url_string):
@@ -19,12 +20,18 @@ def fetch_a_page_from_the_web(url_string):
     page = urllib.urlopen(url_string)
     page_content = page.read()
 
-    print page_content
+    # print page_content
 
     page.close()
 
     return page_content
 
 
+def fetch_colors_info_node(page_content):
+    soup = BeautifulSoup(page_content)
+    print soup.prettify()
+
+
 url_string = "http://www.w3schools.com/cssref/css_colornames.asp"
 page_content = fetch_a_page_from_the_web(url_string)
+colors_info = fetch_colors_info_node(page_content)
