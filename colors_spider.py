@@ -121,5 +121,11 @@ page_content = fetch_a_page_from_the_web(url_string)
 colors_info = fetch_colors_info(page_content)
 
 header_content = header_for_objective_c(colors_info)
+header_file = open("colors_h", "w")
+header_file.write(header_content)
+header_file.close()
 
 implementation_content = implementation_for_objective_c(colors_info)
+implementation_file = open("colors_m", "w")
+implementation_file.write(implementation_content)
+implementation_file.close()
