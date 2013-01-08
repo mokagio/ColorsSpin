@@ -100,14 +100,26 @@ def method_implementation_string(color):
     return implementation
 
 
-def format_colors_for_objective_c(colors):
+def header_for_objective_c(colors):
+    header = ""
     for color in colors:
-        print method_definition_string(color)
-        print method_implementation_string(color)
-        print "-" * 8
+        header = header + method_definition_string(color)
+        header = header + "\n\n"
+    return header
+
+
+def implementation_for_objective_c(colors):
+    implementation = ""
+    for color in colors:
+        implementation = implementation + method_implementation_string(color)
+        implementation = implementation + "\n\n"
+    return implementation
 
 
 url_string = "http://www.w3schools.com/cssref/css_colornames.asp"
 page_content = fetch_a_page_from_the_web(url_string)
 colors_info = fetch_colors_info(page_content)
-formatted_colors = format_colors_for_objective_c(colors_info)
+
+header_content = header_for_objective_c(colors_info)
+
+implementation_content = implementation_for_objective_c(colors_info)
