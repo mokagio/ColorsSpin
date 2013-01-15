@@ -14,6 +14,15 @@ Useful stuff found on
 import urllib
 from bs4 import BeautifulSoup
 
+# find them here http://developer.apple.com/library/ios/#documentation/uikit/reference/UIColor_Class/Reference/Reference.html
+colors_to_skip = [
+    'blackColor', 'darkGrayColor', 'lightGrayColor',
+    'whiteColor', 'grayColor', 'redColor',
+    'greenColor', 'blueColor', 'cyanColor',
+    'yellowColor', 'magentaColor', 'orangeColor',
+    'purpleColor', 'brownColor', 'clearColor'
+    ]
+
 
 def rgb_from_hex(hex_color):
     hex_color = hex_color.replace("#", "")
@@ -103,16 +112,18 @@ def method_implementation_string(color):
 def header_for_objective_c(colors):
     header = ""
     for color in colors:
-        header = header + method_definition_string(color)
-        header = header + "\n\n"
+        if not lower_case_first_letter_of_string(color['name']) + 'Color' in colors_to_skip:
+            header = header + method_definition_string(color)
+            header = header + "\n\n"
     return header
 
 
 def implementation_for_objective_c(colors):
     implementation = ""
     for color in colors:
-        implementation = implementation + method_implementation_string(color)
-        implementation = implementation + "\n\n"
+        if not lower_case_first_letter_of_string(color['name']) + 'Color' in colors_to_skip:
+            implementation = implementation + method_implementation_string(color)
+            implementation = implementation + "\n\n"
     return implementation
 
 
