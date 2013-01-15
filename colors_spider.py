@@ -72,6 +72,7 @@ def fetch_colors_info(page_content):
 
 
 def lower_case_first_letter_of_string(string):
+    string = string.replace(" ", "")
     first_letter = string[0]
     return first_letter.lower() + string[1:]
 
@@ -105,6 +106,7 @@ def method_implementation_string(color):
     implementation = implementation + format_color_component(red)
     implementation = implementation + " green:" + format_color_component(green)
     implementation = implementation + " blue:" + format_color_component(blue)
+    implementation = implementation + " alpha:1.000"
     implementation = implementation + "];"
 
     implementation = implementation + "\n}"
