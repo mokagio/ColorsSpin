@@ -12,6 +12,8 @@
 @interface ViewController ()
 - (void)spinColor;
 - (UIColor *)getRandomColor;
+// This could actually go in the category
+- (BOOL)isColor:(UIColor *)testedColor equalToColor:(UIColor *)testColor;
 @end
 
 @implementation ViewController
@@ -34,7 +36,14 @@
 
 - (void)spinColor
 {
-    [self.view setBackgroundColor:[self getRandomColor]];
+    UIColor *color = [self getRandomColor];
+    
+    // we don't want to have the same color twice in a row
+    while ([self isColor:color equalToColor:self.view.backgroundColor]) {
+        color = [self getRandomColor];
+    }
+    
+    [self.view setBackgroundColor:color];
 }
 
 - (UIColor *)getRandomColor
@@ -69,6 +78,22 @@
     }
     
     return color;
+}
+
+- (BOOL)isColor:(UIColor *)testedColor equalToColor:(UIColor *)testColor
+{
+    CGFloat testedRed, testedGreen, testedBlue, testedAlpha;
+    CGFloat testRed, testGreen, testBlue, testAlpha;
+    
+    [testedColor getRed:&testedRed green:&testedGreen blue:&testedBlue alpha:&testedAlpha];
+    [testColor getRed:&testRed green:&testGreen blue:&testBlue alpha:&testAlpha];
+    
+    BOOL isRedEqual = testedRed == testedRed;
+    BOOL isGreenEqual = testedGreen == testGreen;
+    BOOL isBlueEqual = testedBlue == testBlue;
+    BOOL isAlphaEqual = testedAlpha == testAlpha;
+    
+    return isRedEqual && isGreenEqual && isBlueEqual && isAlphaEqual;
 }
 
 
